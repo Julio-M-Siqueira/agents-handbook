@@ -1,0 +1,3 @@
+﻿display_name: Algotrading Code Quality
+short_description: Audit algotrading-backend changes against project engineering standards.
+default_prompt: Use this skill to perform a rigorous code quality audit for algotrading-backend, focusing on documentation/code_standards.md, SOLID, composition, config validation, vectorized pandas, logging, security, tests, and make check.

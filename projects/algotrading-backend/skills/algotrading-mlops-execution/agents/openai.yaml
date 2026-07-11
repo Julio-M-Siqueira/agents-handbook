@@ -1,0 +1,3 @@
+﻿display_name: Algotrading MLOps Execution
+short_description: Review production ML and live trading execution paths for reliability and safety.
+default_prompt: Use this skill for algotrading-backend execution, inference, entrypoints, model artifact handoff, train/serve parity, idempotency, observability, rollouts, and live or paper trading production readiness.

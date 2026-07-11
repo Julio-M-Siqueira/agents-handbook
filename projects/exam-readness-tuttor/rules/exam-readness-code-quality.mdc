@@ -1,0 +1,24 @@
+---
+description: >-
+  Applies the exam-readness-tuttor code-quality audit skill before completing
+  substantive Python work in D:\projects\exam-readness-tuttor.
+alwaysApply: true
+---
+
+# Exam Readiness Tutor final code quality audit
+
+When working in `D:\projects\exam-readness-tuttor`, use the Codex skill
+`exam-readness-code-quality` before treating substantive Python or project
+structure changes as complete.
+
+Use this rule for:
+
+- code quality review, standards compliance, or pre-merge QA
+- substantive Python changes
+- dependency changes in `pyproject.toml` or `uv.lock`
+- project structure, configuration, testing, security, or logging changes
+
+Do not apply algotrading-only standards to this project unless the user
+explicitly asks for them.
+
+Skip the full audit only for trivial edits or when the user explicitly opts out.

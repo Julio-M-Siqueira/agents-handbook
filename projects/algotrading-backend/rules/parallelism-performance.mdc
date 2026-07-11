@@ -1,0 +1,32 @@
+---
+description: >-
+  Parallelism and performance standards for algotrading-backend: enforces
+  numpy-first vectorization for hot paths, joblib.Parallel for embarrassingly
+  parallel tasks, and n_jobs oversubscription prevention. Apply when writing
+  or reviewing computationally intensive code in feature_store or data_ingestion.
+globs:
+  - src/algotrading_backend/feature_store/**
+  - src/algotrading_backend/data_ingestion/**
+alwaysApply: false
+---
+
+# Parallelism & performance
+
+When editing computationally intensive modules, follow these rules
+(see `documentation/code_standards.md` §15 for full details):
+
+1. **Vectorize first** — Convert pandas DataFrames to numpy arrays before
+   tight inner loops.  Never call `.iloc`, `.div`, `.sum` on pandas objects
+   inside a loop that runs thousands of times.
+
+2. **joblib.Parallel** is the standard parallelism library.  Do not use
+   `multiprocessing.Pool` directly.
+
+3. **Oversubscription prevention** — Functions callable from inside a
+   parallelized outer loop must default to `n_jobs=1`.  Only the outermost
+   caller should set `n_jobs=-1`.
+
+4. **All `n_jobs` must be configurable** via YAML config, not hard-coded.
+
+5. **Do not parallelize** loops where the body modifies shared state or
+   where the operation is <1% of total runtime.

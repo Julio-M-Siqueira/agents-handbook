@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Quality"
+  short_description: "Find and prioritize principle-driven refactors"
+  default_prompt: "Use $code-quality to review this codebase through the handbook knowledge."

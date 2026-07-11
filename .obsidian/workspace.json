@@ -13,15 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "global/AGENTS.md",
+                "file": "templates/obsidian/Principle.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AGENTS"
+              "title": "Principle"
+            }
+          },
+          {
+            "id": "f79af050dd052a9f",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -94,7 +105,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "global/AGENTS.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +114,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Links inversos para AGENTS"
+              "title": "Links inversos"
             }
           },
           {
@@ -113,12 +123,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "global/AGENTS.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Links de saída para AGENTS"
+              "title": "Links de saída"
             }
           },
           {
@@ -156,13 +165,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "global/AGENTS.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Sumário de AGENTS"
+              "title": "Sumário"
             }
           },
           {
@@ -194,13 +202,43 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a262d05c9af762a8",
+  "active": "f79af050dd052a9f",
   "lastOpenFiles": [
-    "README.md",
-    "AGENTS.md",
+    "skills/code-quality/SKILL.md",
     "global/AGENTS.md",
-    "templates/python-project-AGENTS.md",
-    "templates/repository-AGENTS.md",
-    "templates/data-science-project-AGENTS.md"
+    "skills/pdf/SKILL.md",
+    "skills/pdf/assets/pdf.png",
+    "projects/algotrading-backend/skills/algotrading-quant-research-audit/SKILL.md",
+    "projects/algotrading-backend/skills/algotrading-mlops-execution/SKILL.md",
+    "projects/algotrading-backend/skills/algotrading-code-quality/SKILL.md",
+    "projects/algotrading-backend/agents/quant-research-auditor.md",
+    "projects/algotrading-backend/agents/mlops-quant-auditor.md",
+    "projects/algotrading-backend/agents/code-quality-auditor.md",
+    "templates/obsidian/Pattern.md",
+    "scripts/sync-codex.ps1",
+    "projects/exam-readness-tuttor/AGENTS.md",
+    "projects/algotrading-backend/AGENTS.md",
+    "projects/exam-readness-tuttor/project.json",
+    "projects/algotrading-backend/project.json",
+    "projects/exam-readness-tuttor/rules/exam-readness-code-quality.mdc",
+    "projects/algotrading-backend/rules/quant-research-audit.mdc",
+    "projects/algotrading-backend/rules/parallelism-performance.mdc",
+    "projects/algotrading-backend/rules/mlops-quant-execution.mdc",
+    "projects/algotrading-backend/rules/code-quality-final-audit.mdc",
+    "projects/exam-readness-tuttor/agents/exam-readness-code-quality-auditor.md",
+    "projects/exam-readness-tuttor/skills/exam-readness-code-quality/agents/openai.yaml",
+    "projects/exam-readness-tuttor/skills/exam-readness-code-quality/agents",
+    "projects/exam-readness-tuttor/skills/exam-readness-code-quality/SKILL.md",
+    "templates/obsidian/Skill.md",
+    "templates/obsidian/Global.md",
+    "AGENTS.md",
+    "README.md",
+    "knowledge/principles/Verification Is Part of the Change.md",
+    "knowledge/principles/Failures Are Observable and Actionable.md",
+    "knowledge/principles/Explicit Operational Contracts.md",
+    "knowledge/principles/Configuration Is a Contract.md",
+    "knowledge/principles/Composition Defines Variation.md",
+    "knowledge/patterns/Bulk Transformation Pipeline.md",
+    "knowledge/playbooks/Find Bulk Data Refactors.md"
   ]
 }

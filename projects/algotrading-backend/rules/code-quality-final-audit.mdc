@@ -1,0 +1,16 @@
+---
+description: >-
+  Instructs the agent to run the project code-quality audit skill before
+  concluding substantive Python changes, using documentation/code_standards.md as authority.
+alwaysApply: true
+---
+
+# Final code quality audit (delegate to skill)
+
+Before treating a coding task as **complete** for changes under `src/` (or when the user asks for a standards check):
+
+1. **Read** the project skill at `.cursor/skills/algotrading-code-quality/SKILL.md` and apply its workflow (PhD-level rigor, **SOLID**, **composition over inheritance**, checklist, output template).
+2. **Treat** `documentation/code_standards.md` as the authoritative standard; the skill summarizes it but does not replace it.
+3. When appropriate, run **`make check`** from the repo root and fold results into the audit.
+
+Skip the full audit only for trivial edits (e.g. typo-only) or when the user explicitly opts out.

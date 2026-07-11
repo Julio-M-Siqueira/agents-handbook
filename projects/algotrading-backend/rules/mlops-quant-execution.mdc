@@ -1,0 +1,47 @@
+---
+description: >-
+  MLOps and real-time live trading: latency, idempotency, observability, safety,
+  and research-to-live artifact handoff (train in algotrading-research, serve in
+  backend). Apply when editing execution, inference, entrypoints, or
+  config/execution.yaml, config/inference.yaml.
+globs:
+  - src/algotrading_backend/execution/**
+  - src/algotrading_backend/inference/**
+  - src/algotrading_backend/entrypoints/**
+  - config/execution.yaml
+  - config/inference.yaml
+alwaysApply: false
+---
+
+# MLOps & real-time quant execution
+
+1. **Latency and determinism** — State worst-case and p99 latency targets for
+   the hot path (inference + routing + broker send). Make behaviour deterministic
+   for a given input where regulators or reconciliation require it; log any
+   intentional non-determinism (e.g. float order).
+
+2. **Idempotency & de-duplication** — External callbacks and bar/webhook
+   events must be safe to retry. Use stable client-generated ids or
+   idempotency keys; persist or dedupe in the data path that owns truth.
+
+3. **Train / serve parity** — Training runs in the sibling repo
+   **algotrading-research** (`entrypoints.train`); it emits **joblib** (`model_path`)
+   and a **feature list file** (`features_path`). Live inference here loads joblib
+   (local or `s3://`) and must use the **same ordered features** and preprocessing
+   contract. Pin rollback via `config/inference.yaml` (`model.s3_uri` or
+   `local_path`) and traceability (MLflow run, `TRAIN_RUN_NAME`, DVC/CI if used).
+
+4. **Observability** — Log structured, non-secret context (model version,
+   signal id, latency, outcome). Add metrics: error rate, queue depth, drift
+   hooks where applicable. Never log secrets or full payloads with credentials.
+
+5. **Config & rollouts** — Tunables in YAML; validate with Pydantic. Prefer
+   blue/green or canary for model and risk-parameter changes; document
+   rollback (artifact pin + config revert).
+
+6. **Safety** — Enforce pre-trade risk checks in code paths that cannot be
+   bypassed by a misconfigured client. Fail closed on missing configuration or
+   unhealthy dependencies when the spec requires it.
+
+For depth, use `.cursor/skills/algotrading-mlops-execution/SKILL.md` (includes
+**research → production** handoff).

@@ -1,0 +1,3 @@
+﻿display_name: Algotrading Quant Research Audit
+short_description: Audit feature and ingestion pipelines for leakage, alignment, and methodology risk.
+default_prompt: Use this skill to review algotrading-backend feature_store and data_ingestion changes for lookahead bias, bar timestamp correctness, data leakage, fragile preprocessing, and out-of-sample validity.

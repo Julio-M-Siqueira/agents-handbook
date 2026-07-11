@@ -1,0 +1,4 @@
+interface:
+  display_name: "Exam Readiness Code Quality"
+  short_description: "Project standards audit for exam tutor code"
+  default_prompt: "Use $exam-readness-code-quality to audit this project against its code standards."

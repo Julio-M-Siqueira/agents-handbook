@@ -1,0 +1,22 @@
+---
+description: >-
+  Delegates to the principal quant researcher skill for leakage and methodology
+  review on feature_store and data_ingestion. Complements documentation/code_standards.md /
+  algotrading-code-quality (software audit).
+globs:
+  - src/algotrading_backend/feature_store/**/*.py
+  - src/algotrading_backend/data_ingestion/**/*.py
+  - src/algotrading_backend/entrypoints/feature_store.py
+  - src/algotrading_backend/entrypoints/data_collector.py
+alwaysApply: false
+---
+
+# Quant research audit (delegate to skill)
+
+When the user is editing or reviewing code under the globs above, or asks for quant methodology, leakage, or feature validity:
+
+1. **Read** `.cursor/skills/algotrading-quant-research-audit/SKILL.md` and follow its workflow and report template.
+2. **Prioritize** `feature_store` and **data preparation in** `data_ingestion` (collectors, merge, parquet, validators).
+3. For **architecture, SOLID, formatting, and `make check`**, use **`algotrading-code-quality`** and **`documentation/code_standards.md`** — this rule does not replace them.
+
+Invoke explicitly for a full pass when changing configs or cross-cutting behavior not covered by globs.
