@@ -29,6 +29,7 @@ Find behavior coupled through inheritance or concrete construction, rank the can
 1. Search for inheritance declarations, base classes with concrete logic, `super()` chains, and direct construction inside business methods.
 2. For each candidate, distinguish semantic substitution from implementation reuse.
 3. Identify the changing behavior, stable orchestration, and smallest interface needed between them.
+   Place a structural protocol near the consumer when separately owned implementations already have the needed shape. Retain or introduce an abstract base class when nominal membership and an owned implementation lifecycle are part of the contract.
 4. Search for condition chains that select implementations; check whether a registry would make the selection data-driven.
 5. Group findings by behavior axis, such as storage, parsing, policy, or transport.
 6. Score impact, change frequency, test difficulty, and minimality from 1 to 5. Prefer the highest total with a bounded migration.
@@ -64,4 +65,5 @@ If a base class has true shared semantics and stable substitutability, record it
 - [[Composition Defines Variation]]
 - [[Strategy Injection]]
 - [[Registry-Based Selection]]
+- [[Software Design in Python Video Series]]
 

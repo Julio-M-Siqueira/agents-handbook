@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explain Diff HTML"
+  short_description: "Teach changes and coach architecture practice"
+  default_prompt: "Use $explain-diff-html to explain this change, give me practical architecture exercises, or review my practice solution without solving it for me."

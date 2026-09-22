@@ -8,8 +8,13 @@ This repository is the source of truth for reusable agent workflows and project-
 - `skills/` contains reusable skill packages.
 - `knowledge/` contains principles, patterns, and playbooks.
 - `projects/` contains project bundles with their own `AGENTS.md`, skills, agents, rules, and sync manifest.
+- `practice/` contains learner-authored architecture exercises and their feedback artifacts.
 - `templates/` contains document templates.
 - `scripts/` contains installation and synchronization helpers.
+
+## Practice Hub
+
+Use `practice/` for hands-on exercises derived from code changes and architecture lessons. Create each exercise in `practice/<slug>/` and follow `practice/AGENTS.md` when creating, reviewing, or discussing learner code.
 
 ## Synchronization
 

@@ -58,4 +58,5 @@ The caller receives a recoverable domain failure, while operations retain a safe
 - [[Actionable Domain Failure]]
 - [[Boundary Validated State]]
 - [[Explicit Operational Contracts]]
-
+- [[Transactional Unit of Work]]
+- [[Software Design in Python Video Series]]

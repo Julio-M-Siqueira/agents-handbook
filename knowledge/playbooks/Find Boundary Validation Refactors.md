@@ -75,6 +75,14 @@ This playbook applies the [[Boundary Validated State]] principle. It should prod
 
    Do not treat every `None` check as a violation. Decide whether absence is valid domain behavior or a leaked invalid state.
 
+   Classify each repeated nullable state before proposing a refactor:
+
+   - missing means invalid: reject it at the boundary and narrow the core type;
+   - missing behaves exactly like empty: normalize it once to the neutral value;
+   - missing is valid domain state: keep the optional type and name that outcome;
+   - omitted differs from explicit null: use a sentinel or request variant;
+   - missing means an operation failed: expose a result or domain failure.
+
    A strong candidate usually has at least two of these signs:
 
    - the same invariant is checked in multiple methods;
@@ -183,3 +191,5 @@ If the principle document is too example-specific, update the principle before c
 - Staged state modeling
 - Strong function contracts
 - Fail fast
+- [[Explicit Absence Model]]
+- [[Software Design in Python Video Series]]

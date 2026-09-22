@@ -2,6 +2,7 @@
 param(
     [string]$HandbookRoot = "",
     [string]$CodexHome = (Join-Path $HOME ".codex"),
+    [string[]]$Skill,
     [string[]]$Project,
     [switch]$Apply
 )
@@ -51,22 +52,59 @@ function Copy-ManagedDirectory {
 }
 
 $backupRoot = Join-Path $CodexHome ("backups\agents-handbook\" + (Get-Date -Format "yyyyMMdd-HHmmss"))
-$globalSource = Join-Path $HandbookRoot "global\AGENTS.md"
-$globalContent = (Get-Content -LiteralPath $globalSource -Raw).
-    Replace("../skills/", "skills/").
-    Replace("../knowledge/", "knowledge/")
+$skillRoot = Join-Path $HandbookRoot "skills"
+$projectRoot = Join-Path $HandbookRoot "projects"
+$availableSkillDirectories = @(Get-ChildItem -LiteralPath $skillRoot -Directory)
+$availableProjectDirectories = @(Get-ChildItem -LiteralPath $projectRoot -Directory)
+$Skill = @($Skill | ForEach-Object { $_ -split "," } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+$Project = @($Project | ForEach-Object { $_ -split "," } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+$hasSkillFilter = $null -ne $Skill -and $Skill.Count -gt 0
+$hasProjectFilter = $null -ne $Project -and $Project.Count -gt 0
 
-Copy-ManagedFile -Source $globalSource -Target (Join-Path $CodexHome "AGENTS.md") -BackupRoot $backupRoot -Content $globalContent
-Copy-ManagedDirectory -Source (Join-Path $HandbookRoot "knowledge") -Target (Join-Path $CodexHome "knowledge") -BackupRoot $backupRoot
+if ($hasSkillFilter) {
+    $missingSkills = @($Skill | Where-Object { $_ -notin $availableSkillDirectories.Name } | Sort-Object -Unique)
+    if ($missingSkills.Count -gt 0) {
+        $availableSkills = $availableSkillDirectories.Name -join ", "
+        throw "Unknown skill(s): $($missingSkills -join ', '). Available skills: $availableSkills"
+    }
+}
 
-Get-ChildItem -LiteralPath (Join-Path $HandbookRoot "skills") -Directory | ForEach-Object {
+if ($hasProjectFilter) {
+    $missingProjects = @($Project | Where-Object { $_ -notin $availableProjectDirectories.Name } | Sort-Object -Unique)
+    if ($missingProjects.Count -gt 0) {
+        $availableProjects = $availableProjectDirectories.Name -join ", "
+        throw "Unknown project(s): $($missingProjects -join ', '). Available projects: $availableProjects"
+    }
+}
+
+if (-not $hasSkillFilter -and -not $hasProjectFilter) {
+    $globalSource = Join-Path $HandbookRoot "global\AGENTS.md"
+    $globalContent = (Get-Content -LiteralPath $globalSource -Raw).
+        Replace("../skills/", "skills/").
+        Replace("../knowledge/", "knowledge/")
+
+    Copy-ManagedFile -Source $globalSource -Target (Join-Path $CodexHome "AGENTS.md") -BackupRoot $backupRoot -Content $globalContent
+    Copy-ManagedDirectory -Source (Join-Path $HandbookRoot "knowledge") -Target (Join-Path $CodexHome "knowledge") -BackupRoot $backupRoot
+}
+
+$skillDirectories = if ($hasSkillFilter) {
+    @($availableSkillDirectories | Where-Object { $_.Name -in $Skill })
+} elseif ($hasProjectFilter) {
+    @()
+} else {
+    $availableSkillDirectories
+}
+
+$skillDirectories | ForEach-Object {
     Copy-ManagedDirectory -Source $_.FullName -Target (Join-Path $CodexHome ("skills\" + $_.Name)) -BackupRoot $backupRoot
 }
 
-$projectRoot = Join-Path $HandbookRoot "projects"
-$projectDirectories = Get-ChildItem -LiteralPath $projectRoot -Directory
-if ($Project) {
-    $projectDirectories = $projectDirectories | Where-Object { $_.Name -in $Project }
+$projectDirectories = if ($hasProjectFilter) {
+    @($availableProjectDirectories | Where-Object { $_.Name -in $Project })
+} elseif ($hasSkillFilter) {
+    @()
+} else {
+    $availableProjectDirectories
 }
 
 foreach ($projectDirectory in $projectDirectories) {
@@ -92,7 +130,8 @@ foreach ($projectDirectory in $projectDirectories) {
 if ($script:ApplySync) {
     Write-Host "Sync complete. Backups: $backupRoot"
 } else {
-    Write-Host "Dry run only. Re-run with -Apply to synchronize managed files."
+    Write-Host "DRY RUN ONLY: no files were changed."
+    Write-Host "Re-run the same command with -Apply to synchronize the listed targets."
 }
 
 

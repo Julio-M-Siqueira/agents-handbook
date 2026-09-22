@@ -1,0 +1,4 @@
+# Locally downloaded source media and generated full transcripts.
+.research/
+.obsidian/
+# Generated transcript conversion output stays with research media.

@@ -28,7 +28,7 @@ Find places where a public or cross-module operation has an implicit, ambiguous,
 ## Steps
 
 1. Locate boundaries: public methods, handlers, service entry points, adapters, and module exports.
-2. Search for contract ambiguity: `Any`, untyped dictionaries, nullable required values, ambiguous `None` returns, repeated validation, and undocumented side effects.
+2. Search for contract ambiguity: `Any`, untyped dictionaries, nullable required values, ambiguous `None` returns, repeated validation, and undocumented side effects. Distinguish omitted input, valid absence, not-found results, and dependency failure before selecting a replacement contract.
 3. Inspect callers and tests to infer the actual contract currently relied on.
 4. Group evidence by one missing contract, not by individual line.
 5. Score each group from 1 to 5 for impact, caller confusion, and minimality. Sum the scores.
@@ -67,4 +67,6 @@ If the actual contract differs between callers, record the incompatibility first
 - [[Boundary Validated State]]
 - [[Validated Configuration Loader]]
 - [[Actionable Domain Failure]]
+- [[Explicit Absence Model]]
+- [[Software Design in Python Video Series]]
 

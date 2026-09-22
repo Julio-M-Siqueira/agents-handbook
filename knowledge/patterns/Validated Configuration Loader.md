@@ -61,3 +61,4 @@ Introduces a schema and loading step, but removes raw configuration handling fro
 - [[Configuration Is a Contract]]
 - [[Find Configuration Contract Gaps]]
 - [[Boundary Validated State]]
+- [[Software Design in Python Video Series]]

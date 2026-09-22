@@ -60,4 +60,4 @@ Consumers receive `CacheSettings`, not raw strings or repeated fallback logic.
 - [[Validated Configuration Loader]]
 - [[Boundary Validated State]]
 - [[Explicit Operational Contracts]]
-
+- [[Software Design in Python Video Series]]

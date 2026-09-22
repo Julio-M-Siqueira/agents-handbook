@@ -28,8 +28,18 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1
 To publish one project bundle only:
 
 ```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1 -Project algotrading-backend
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1 -Project algotrading-backend -Apply
 ```
+
+To publish one reusable skill only:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1 -Skill explain-diff-html
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1 -Skill explain-diff-html -Apply
+```
+
+`-Skill` and `-Project` accept comma-separated names. When either filter is present, the script synchronizes only the selected targets; an unfiltered run publishes the complete managed architecture.
 
 The sync backs up replaced managed paths under `~/.codex/backups/agents-handbook/`. It does not touch Codex runtime state, credentials, plugins, sessions, or unmanaged skills.
 

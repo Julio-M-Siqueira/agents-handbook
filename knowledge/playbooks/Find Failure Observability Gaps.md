@@ -28,6 +28,7 @@ Find failure paths that lose context, silently continue, expose sensitive data, 
 
 1. Search for broad exception handlers, empty handlers, generic error messages, unlogged failures, and fallback values returned after errors.
 2. Trace each candidate from the original failure to the caller or operator-visible outcome.
+   For transactional operations, also trace whether partial work can commit and whether rollback preserves the original failure.
 3. Identify the layer that has enough context to classify and log the failure safely.
 4. Group findings by lost context or unclear recovery behavior.
 5. Score user or operational impact, probability of silent corruption, recoverability, and minimality from 1 to 5.
@@ -65,4 +66,6 @@ If the desired recovery policy is unknown, report the ambiguity as the finding. 
 - [[Failures Are Observable and Actionable]]
 - [[Actionable Domain Failure]]
 - [[Explicit Operational Contracts]]
+- [[Transactional Unit of Work]]
+- [[Software Design in Python Video Series]]
 

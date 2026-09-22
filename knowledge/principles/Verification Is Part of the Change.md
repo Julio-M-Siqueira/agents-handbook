@@ -40,6 +40,7 @@ This test proves the failure contract introduced by the configuration boundary, 
 - Keep tests near the behavior they verify and make them readable as contract examples.
 - Run the repository's standard quality gate before declaring a substantive change complete.
 - Treat a failed check as a finding to understand, not a result to suppress.
+- For deployment-facing changes, include evidence for configuration loading, dependency failures, monitoring signals, and startup or rollback behavior when those concerns are part of the changed contract.
 
 ## Exceptions
 
@@ -52,4 +53,4 @@ This test proves the failure contract introduced by the configuration boundary, 
 - [[Verify a Change Against Quality Principles]]
 - [[Focused Test Matrix]]
 - [[Explicit Operational Contracts]]
-
+- [[Software Design in Python Video Series]]

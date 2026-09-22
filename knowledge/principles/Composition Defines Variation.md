@@ -43,6 +43,7 @@ class PricingService:
 - Prefer one clear interface and several small implementations over a hierarchy that accumulates optional hooks.
 - Use registries when selection is data-driven or configured, and validate registry entries at startup.
 - Treat an abstract base class as an interface boundary, not a container for unrelated concrete behavior.
+- Place a structural `Protocol` near the consumer when independently owned or third-party implementations should satisfy the contract without inheritance. Prefer an abstract base class when one owned implementation family needs nominal membership or shared lifecycle rules.
 
 ## Exceptions
 
@@ -56,4 +57,4 @@ class PricingService:
 - [[Strategy Injection]]
 - [[Registry-Based Selection]]
 - [[Explicit Operational Contracts]]
-
+- [[Software Design in Python Video Series]]

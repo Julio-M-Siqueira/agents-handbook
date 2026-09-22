@@ -61,4 +61,5 @@ If compatibility requires legacy keys, normalize them at the boundary and add a 
 - [[Configuration Is a Contract]]
 - [[Validated Configuration Loader]]
 - [[Boundary Validated State]]
+- [[Software Design in Python Video Series]]
 

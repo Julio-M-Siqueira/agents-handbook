@@ -61,4 +61,5 @@ The signature exposes the required collaborators, a meaningful successful result
 - [[Find Contract Boundary Refactors]]
 - [[Validated Configuration Loader]]
 - [[Actionable Domain Failure]]
-
+- [[Explicit Absence Model]]
+- [[Software Design in Python Video Series]]

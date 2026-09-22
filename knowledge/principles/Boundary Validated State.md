@@ -82,6 +82,7 @@ Validating state before it enters core logic:
 ## Implications
 
 - Required values should not remain typed as optional after validation.
+- Classify absence before normalizing it: use a neutral value only when it preserves meaning, retain legitimate optional domain state, and use a sentinel or result variant when distinct absence cases matter.
 - Objects should be immutable when mutation could break established invariants.
 - Validation should occur at a clear boundary, such as parsing, construction, configuration loading, dependency initialization, request handling, or state transition.
 - Core functions should accept the strongest valid type available.
@@ -146,3 +147,5 @@ Core code should depend on `ReadyExecutionContext`, not `RawExecutionContext`.
 - Strong function contracts
 - Immutable validated objects
 - Fail fast
+- [[Explicit Absence Model]]
+- [[Software Design in Python Video Series]]
