@@ -4,6 +4,7 @@ param(
     [string]$CodexHome = (Join-Path $HOME ".codex"),
     [string[]]$Skill,
     [string[]]$Project,
+    [switch]$Global,
     [switch]$Apply
 )
 
@@ -77,7 +78,7 @@ if ($hasProjectFilter) {
     }
 }
 
-if (-not $hasSkillFilter -and -not $hasProjectFilter) {
+if ($Global.IsPresent -or (-not $hasSkillFilter -and -not $hasProjectFilter)) {
     $globalSource = Join-Path $HandbookRoot "global\AGENTS.md"
     $globalContent = (Get-Content -LiteralPath $globalSource -Raw).
         Replace("../skills/", "skills/").
@@ -89,7 +90,7 @@ if (-not $hasSkillFilter -and -not $hasProjectFilter) {
 
 $skillDirectories = if ($hasSkillFilter) {
     @($availableSkillDirectories | Where-Object { $_.Name -in $Skill })
-} elseif ($hasProjectFilter) {
+} elseif ($hasProjectFilter -or $Global.IsPresent) {
     @()
 } else {
     $availableSkillDirectories
@@ -101,7 +102,7 @@ $skillDirectories | ForEach-Object {
 
 $projectDirectories = if ($hasProjectFilter) {
     @($availableProjectDirectories | Where-Object { $_.Name -in $Project })
-} elseif ($hasSkillFilter) {
+} elseif ($hasSkillFilter -or $Global.IsPresent) {
     @()
 } else {
     $availableProjectDirectories

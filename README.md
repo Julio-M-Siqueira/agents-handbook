@@ -212,6 +212,17 @@ directory (`~/.codex/`) and into registered project roots. Always run a dry run 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1
 ```
 
+**Sync global instructions and knowledge only:**
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1 -Global
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1 -Global -Apply
+```
+
+Use this scope for handbook-wide guidance changes. It skips skills and project bundles,
+including their repository destinations. Add `-Skill` or `-Project` to include explicitly
+selected bundles alongside global instructions and knowledge.
+
 **Apply the full sync:**
 
 ```powershell
@@ -231,7 +242,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\sync-codex.ps1
 ```
 
 `-Skill` and `-Project` accept comma-separated names. When either filter is present the script
-synchronizes only those targets; an unfiltered run publishes the complete managed architecture.
+synchronizes only those targets unless `-Global` is also present; an unfiltered run publishes
+the complete managed architecture. Configure each project manifest's `repositoryPath` before
+running an unfiltered sync or selecting that project.
 
 The sync backs up replaced managed paths under `~/.codex/backups/agents-handbook/`. It does not
 touch runtime state, credentials, plugins, sessions, or unmanaged skills.

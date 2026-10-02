@@ -25,7 +25,7 @@ The current layer understands the operation, safe identifiers, and the recovery 
 
 ## Solution
 
-Translate expected dependency failures into a specific domain error, preserve the cause, and log safe operational context where the failure can be acted on.
+Translate expected dependency failures into a specific domain error only when the caller needs that distinction or the boundary can supply missing context. Preserve the cause and report safe operational context where the failure can be acted on. If the native exception already meets the contract, let it propagate.
 
 ```python
 class DocumentPublishError(RuntimeError):
@@ -37,7 +37,7 @@ def publish(document: Document, client: Publisher) -> None:
         client.send(document)
     except ConnectionError as error:
         raise DocumentPublishError(
-            f"Could not publish document {document.id}; retry later"
+            f"Could not publish document {document.id}; check the connection and publication status"
         ) from error
 ```
 
@@ -45,16 +45,19 @@ def publish(document: Document, client: Publisher) -> None:
 
 - Callers need distinct recovery behavior.
 - A dependency error lacks meaningful operation context.
-- A failure must be observable to operators.
+- Existing error reporting lacks the safe identifiers operators need to diagnose the failed operation.
 
 ## Avoid when
 
 - The layer cannot add useful context.
 - The error represents ordinary domain absence better modeled as a result.
+- A native exception already gives the batch caller a clear failure and sufficient diagnostic context.
+- The wrapper exists only to log and rethrow an unchanged failure already reported at another boundary.
+- Translation would imply that retry is safe without knowing whether the original side effect occurred.
 
 ## Tradeoffs
 
-Adds error types and translation code, but produces clearer recovery behavior and diagnostics.
+Adds error types and translation code that must have a concrete consumer or diagnostic benefit. Translation does not implement recovery, make an operation safe to repeat, or require a lifecycle wrapper. Avoid combining it with an unrequested fallback that makes stale or partial results look successful.
 
 ## Related
 

@@ -1,5 +1,13 @@
 # Global Agent Instructions
 
+## Failure Handling and Execution Context
+
+Before adding a safeguard, retry, fallback, status layer, or recovery path, identify the concrete failure it addresses, the invariant it protects, and the caller behavior it changes. Prefer ordinary exception propagation when it already stops the operation clearly.
+
+For research and batch work, fail the affected operation visibly by default. Reusing older artifacts, skipping records, substituting defaults, or publishing partial results requires an explicit contract that makes the selected data and incomplete outcome visible to consumers. Logging a warning alone does not make a fallback correct. For streaming and online work, justify recovery against the availability requirement and the correctness of continuing; continuous execution does not make every fallback acceptable.
+
+Validate external inputs and irreversible side effects at their owning boundaries. Do not duplicate established checks or add lifecycle abstractions solely to guard a sequential pipeline that already stops on errors. Apply [Failures Are Observable and Actionable](../knowledge/principles/Failures%20Are%20Observable%20and%20Actionable.md) and its [playbook](../knowledge/playbooks/Find%20Failure%20Observability%20Gaps.md) when assessing these tradeoffs.
+
 ## Code Quality Procedure
 
 For code-quality reviews, refactor discovery, maintainability assessments, or substantive implementation verification, use the [code-quality skill](../skills/code-quality/SKILL.md).
