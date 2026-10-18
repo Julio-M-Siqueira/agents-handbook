@@ -18,12 +18,13 @@ aliases:
 
 ## Goal
 
-Find code quality refactor opportunities where core logic accepts raw, partial, nullable, or weakly validated state, then rank the findings and identify the most critical minimal refactor.
+Find code quality refactor opportunities where core logic accepts raw, partial, nullable, or weakly validated state, then rank the findings and select a coherent correction across the affected workflow.
 
 This playbook applies the [[Boundary Validated State]] principle. It should produce generalizable findings, not one-off fixes tied to the first example discovered.
 
 ## Preconditions
 
+- For requested refactors, apply [[Refactoring Simplifies the Whole Workflow]] and [[Design a Coherent Refactor]] before editing; include affected callers and consumers.
 - A principle is selected and understood before searching.
 - The principle has been translated into a search lens:
   - invariant being protected;
@@ -103,44 +104,9 @@ This playbook applies the [[Boundary Validated State]] principle. It should prod
 
 6. Rank each finding.
 
-   Score each group from 1 to 5 in three dimensions:
+   Use [[Design a Coherent Refactor]] to score criticality, architectural improvement, and refactor leverage separately from 1 to 5. Prioritize demonstrated contract failures, then clarity and complexity reduction across the workflow. Record implementation cost, migration risk, and verification effort separately; do not reward a smaller patch over a stronger design.
 
-   - Criticality: impact if invalid state reaches core logic.
-   - Refactor leverage: how many checks or unclear contracts disappear.
-   - Minimality: how small and localized the refactor can be.
-
-   Suggested scale:
-
-   ```text
-   Criticality
-   5 = can affect trading, money movement, external side effects, or production availability
-   4 = can silently skip core behavior or produce misleading output
-   3 = obscures central business logic through repeated defensive checks
-   2 = local duplication with low runtime impact
-   1 = cosmetic or naming-level issue
-
-   Refactor leverage
-   5 = one boundary change removes several checks
-   4 = one validated type or factory clarifies a major workflow
-   3 = small helper/type improvement removes some duplication
-   2 = minor local cleanup
-   1 = refactor is larger than the benefit
-
-   Minimality
-   5 = constructor, factory, or type narrowing in one module
-   4 = one module plus focused tests
-   3 = two or three modules with clear ownership
-   2 = cross-module migration
-   1 = broad architectural redesign
-   ```
-
-   Priority can be estimated as:
-
-   ```text
-   priority = criticality + refactor_leverage + minimality
-   ```
-
-7. Select the most critical minimal refactor.
+7. Select the strongest supported correction for the affected invariant.
 
    Prefer the refactor that changes the boundary contract rather than adding more defensive checks.
 
@@ -150,7 +116,9 @@ This playbook applies the [[Boundary Validated State]] principle. It should prod
    Finding: core logic accepts weak state.
    Invariant: what must already be true.
    Boundary: where validation should move.
-   Minimal refactor: smallest type/factory/state transition that makes the invariant explicit.
+   Target design: boundary and data flow that establish the invariant for affected consumers.
+   Alternatives: local versus broader correction when materially different.
+   Retained complexity: concrete contracts requiring repeated validation or transitional state.
    Expected simplification: which checks disappear or become assertions.
    Risk: tests or behavior most likely to break.
    ```
@@ -169,7 +137,7 @@ A good playbook result answers:
 - What stronger type, factory, constructor, parser, or lifecycle stage should exist?
 - Which repeated checks become unnecessary after the refactor?
 - Is absence truly invalid, or is it valid domain behavior?
-- Is the chosen refactor minimal enough to do safely?
+- Does the target flow establish the invariant without redundant checks, and is migration risk supported by evidence?
 
 ## Failure handling
 
@@ -179,7 +147,7 @@ If findings are too broad, restrict the search to one subsystem and require repe
 
 If every result is a legitimate optional domain state, record that as a negative finding and choose another principle or subsystem.
 
-If the minimal refactor would require a large migration, propose a staged type or factory first and defer broad rewiring.
+If a concrete migration risk requires staged work, identify the transitional contract, remaining caller migration, and completion criteria. State partial completion explicitly; do not defer authorized rewiring solely because it spans modules.
 
 If the principle document is too example-specific, update the principle before creating more playbooks from it.
 

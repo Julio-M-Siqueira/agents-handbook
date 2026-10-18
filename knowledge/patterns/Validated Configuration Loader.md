@@ -27,6 +27,8 @@ Settings come from files, environment variables, command-line input, or remote c
 
 Load raw values once, validate and normalize them into a typed configuration object, then pass that object to the owning subsystem.
 
+Reuse that validated object through consecutive in-process computations. Keep provenance serialization as an explicit recording operation rather than making the active workflow reload it. Retain a reload or adapter only for an established boundary, such as another process, dynamic configuration revision, or an external consumer. Preserve effective defaults, overrides, normalization, and identity when removing a round trip; it may have changed value types or precision.
+
 ```python
 @dataclass(frozen=True)
 class RetrySettings:
@@ -50,7 +52,7 @@ def load_retry_settings(raw: Mapping[str, str]) -> RetrySettings:
 ## Avoid when
 
 - The value is an intrinsic algorithmic constant with no operational reason to vary it.
-- A framework already supplies an authoritative validated settings object.
+- A framework already supplies an authoritative validated settings object: reuse it and the direct-handoff guidance rather than introducing another loader or schema.
 
 ## Tradeoffs
 

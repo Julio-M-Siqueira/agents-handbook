@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Delivery"
+  short_description: "Plan reviewable PRs from completed implementation"
+  default_prompt: "Use $pr-delivery to assess these completed changes and propose PR boundaries, dependencies, verification, and safe deployment order."

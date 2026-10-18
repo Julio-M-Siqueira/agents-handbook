@@ -88,7 +88,9 @@ Validating state before it enters core logic:
 - Core functions should accept the strongest valid type available.
 - Validation errors should be raised before expensive or irreversible processing begins.
 - Repeated checks for the same invariant may indicate that the domain model is too weak.
+- Trace the invariant through the full affected workflow before removing checks. Revalidation is justified by new external input, mutation that can invalidate the invariant, or an independently required side-effect precondition; passing trusted state to the next function alone is not a new boundary.
 - When raw input and validated state differ, separate staged types may be appropriate.
+- A ready-state object or preparation helper should represent established invariants, not conceal major computational stages. Use named computations and explicit data flow; do not create staged types solely to avoid completing caller migration. See [[Design a Coherent Refactor]].
 - Lazy initialization should be explicit as a lifecycle state, not leaked into every core operation.
 
 ## Search Signals

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Description"
+  short_description: "Explain PR behavior with evidence and flow visuals"
+  default_prompt: "Use $pr-description to write this PR's description with concrete before/after examples, verification, code references, and flow visuals."

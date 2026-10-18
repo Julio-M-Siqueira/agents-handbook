@@ -1,17 +1,28 @@
-﻿# algotrading-backend Agent Instructions
+# algotrading-backend Agent Instructions
 
-## Shared Baseline
+## Review workflow
 
-Use the generic `code-quality` skill for principle-driven refactor discovery and verification. Apply the specialist routing below when the work is specific to this project.
+Use the installed `code-quality` skill for reviews and substantive implementation verification. It owns the evidence, ranking, report, and verification procedure. Read the relevant sections of `documentation/code_standards.md` as the authoritative project standard.
 
-## Specialist Routing
+Select domain knowledge through that skill:
+- Feature engineering, ingestion, labels, and backtests: **Decisions Use Available Information** → **Audit Temporal Data Validity**.
+- Inference, execution, model promotion, and production readiness: **Serving Preserves the Model Contract** → **Audit Model Serving and Execution**.
 
-- Use `algotrading-code-quality` for standards compliance, pre-merge QA, or substantive Python changes under `src/`. Treat `documentation/code_standards.md` as authoritative and run `make check` when practical.
-- Use `algotrading-quant-research-audit` for feature engineering, ingestion, leakage analysis, bar-timestamp alignment, ML/backtest methodology, and feature validity. Treat `documentation/BAR_TIMESTAMP_CONVENTIONS.md` as authoritative.
-- Use `algotrading-mlops-execution` for execution, inference, relevant entrypoints, model promotion, production readiness, observability, and rollback safety.
+The knowledge lives in the handbook's `knowledge/` directory (installed at `~/.codex/knowledge/`). The skill contains resolvable links. Apply both domain routes when a change crosses their boundaries.
 
-## Project Constraints
+## Research-to-live alignment in PR reviews
 
-- Vectorize computationally intensive feature-store and ingestion paths. Use configurable parallelism and prevent nested worker oversubscription.
-- For execution and inference work, check latency, determinism, idempotency, train/serve feature contracts, observability, rollback behavior, and fail-closed safety.
-- Keep the project-specific agents, rules, and specialist skills in this project bundle synchronized from agents-handbook.
+For PR changes to ingestion, features, shared dependencies, inference, execution, model artifacts, or their configuration, apply both domain routes and read `~/.codex/projects/algotrading-backend/references/research-to-live-review.md` (handbook source: `projects/algotrading-backend/references/research-to-live-review.md`). For unrelated changes, record why this check is not applicable.
+
+## Project contracts
+
+- Read `documentation/BAR_TIMESTAMP_CONVENTIONS.md` for temporal reviews. OHLCV indices denote bar open; close-based quantities become available at bar end. The platform default is a bar-close decision; same-row features are not automatically leakage. Explicitly distinguish next-open strategies.
+- Keep thin orchestrators, YAML tunables validated by Pydantic, boundary validators, module exceptions, and the project's ABC/registry extension contracts. Read the standard for public typing/docstrings, logging conventions, dependency commands, and coverage requirements.
+- Keep computational stages explicit; resource contexts own actual lifetimes rather than hiding computation in preparation.
+- Source acquisition and audit workflows belong to the owning pipeline; market-source acquisition belongs under `data_ingestion/`.
+- `algotrading-research` owns offline training, `algotrading-core` owns shared signal/feature logic, and `algotrading-backend` owns inference and execution.
+- Vectorize intensive feature-store and ingestion transformations. Follow the standard's configurable joblib parallelism and nested-worker limits; preserve genuine sequential semantics.
+- Training handoff details are maintained in the installed project bundle's `references/model-handoff.md` (`~/.codex/projects/algotrading-backend/references/model-handoff.md`). Read it when reviewing training-to-serving compatibility.
+- Use repository Make targets: `make check` for substantive changes and merge-readiness reviews; `make all` includes formatting, `make coverage` reports coverage, and `make install-dev` installs development dependencies. Report failed or unrun checks.
+
+Edit project instructions, agent/rule adapters, and references in agents-handbook and publish through its sync script.

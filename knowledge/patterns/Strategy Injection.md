@@ -27,6 +27,8 @@ One workflow is stable, but one policy or mechanism changes independently: prici
 
 Define a narrow behavior contract and provide the implementation as a collaborator. Keep orchestration responsible for sequence and outcome, while the strategy owns the variable behavior.
 
+First identify responsibilities in the complete affected workflow. Extracting a strategy is not architectural completion if unnecessary reloads, handoffs, or hidden computation remain. Keep major stages explicit in orchestration and justify any retained adapter; do not introduce a strategy solely to reduce the patch or move an existing method.
+
 ```python
 from typing import Protocol
 

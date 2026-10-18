@@ -49,9 +49,12 @@ def test_uses_default_attempts() -> None:
 ```
 
 The examples name the contract cases directly: default success and invalid boundary values.
+
+For structural refactors, add architectural acceptance evidence alongside behavioral equivalence. For example, observe configuration and storage boundaries to show an unnecessary reload or write/read handoff is gone, exercise required artifact consumers, and verify stage ordering and failure cleanup. Review the responsibility/data-flow trace to confirm computation is explicit. Check the promised improvement without coupling tests to private helper names or file layout; existing tests may already cover some cases. See [[Design a Coherent Refactor]] for a workflow checklist.
 ## Use when
 
 - A refactor changes contracts, validation, error handling, or data transformations.
+- A refactor preserves external behavior while promising a simpler internal workflow.
 - A bug fix has a reproducible failure mode.
 - A public operation has several meaningful outcomes.
 

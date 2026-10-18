@@ -27,6 +27,8 @@ Each output can be computed from input values and explicit grouping or ordering 
 
 Represent the work as a sequence of bulk stages: select relevant data, transform values, group or aggregate, then return a named result.
 
+Pass results directly between consecutive in-process stages where contracts and memory constraints permit. Keep required publication, provenance, restart checkpoints, and cross-process handoffs explicit, with their consumers identified. Existing path-based APIs alone do not justify a write/reload; migrate affected producers and consumers when that handoff is unnecessary.
+
 ```python
 def total_by_customer(orders: DataFrame) -> Series:
     paid_orders = orders.loc[orders["status"].eq("paid")]

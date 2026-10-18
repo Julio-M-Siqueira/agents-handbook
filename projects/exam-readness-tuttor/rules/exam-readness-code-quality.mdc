@@ -8,8 +8,7 @@ alwaysApply: true
 # Exam Readiness Tutor final code quality audit
 
 When working in `D:\projects\exam-readness-tuttor`, use the Codex skill
-`exam-readness-code-quality` before treating substantive Python or project
-structure changes as complete.
+`exam-readness-code-quality` before completing the following work:
 
 Use this rule for:
 
@@ -18,7 +17,6 @@ Use this rule for:
 - dependency changes in `pyproject.toml` or `uv.lock`
 - project structure, configuration, testing, security, or logging changes
 
-Do not apply algotrading-only standards to this project unless the user
-explicitly asks for them.
-
-Skip the full audit only for trivial edits or when the user explicitly opts out.
+The skill loads the project scope, standards, opt-out cases, and validation
+commands, then applies the shared quality method and report. For other
+repositories this rule does not apply.

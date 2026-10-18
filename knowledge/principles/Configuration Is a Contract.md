@@ -45,6 +45,8 @@ Consumers receive `CacheSettings`, not raw strings or repeated fallback logic.
 - Keep environment-specific or tunable behavior outside source code.
 - Define defaults, ranges, required combinations, and deprecations in one schema or loader.
 - Normalize aliases and raw string values once; core logic should receive typed, validated settings.
+- Pass trusted settings directly between in-process stages. Serializing and reloading them requires a concrete consumer, trust boundary, or operational constraint; recording effective configuration for provenance does not itself require a reload.
+- Reuse an existing validated representation when it expresses the required contract. A second schema or adapter must protect a distinct boundary, not preserve an accidental handoff.
 - Fail at startup or configuration load for invalid required settings.
 - Keep configuration ownership close to the subsystem it controls.
 

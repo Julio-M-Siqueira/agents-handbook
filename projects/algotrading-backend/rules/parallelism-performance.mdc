@@ -12,6 +12,10 @@ alwaysApply: false
 
 # Parallelism & performance
 
+Apply this rule only in the `algotrading-backend` repository, identified from its project instructions/metadata and `src/algotrading_backend/` package. In any other repository, this rule does not apply.
+
+Follow the project's AGENTS.md for review routing.
+
 When editing computationally intensive modules, follow these rules
 (see `documentation/code_standards.md` §15 for full details):
 

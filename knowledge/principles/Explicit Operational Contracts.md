@@ -48,6 +48,8 @@ The signature exposes the required collaborators, a meaningful successful result
 - Return a meaningful result or raise a meaningful domain error. Avoid ambiguous `None` results for operations that must succeed.
 - Document public APIs when names and types cannot state the contract completely.
 - Keep side effects visible at the unit boundary and inject collaborators that perform them.
+- Distinguish required behavior from accidental helpers, schemas, intermediate files, and compatibility layers. Trace real callers and consumers before removing or retaining them; their existence alone is not a compatibility requirement.
+- Name major computational stages and expose their data flow. Separate persistence required for publication, provenance, restart, or external consumers from temporary transport between consecutive computations. See [[Refactoring Simplifies the Whole Workflow]].
 
 ## Exceptions
 

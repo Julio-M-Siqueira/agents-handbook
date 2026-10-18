@@ -1,4 +1,4 @@
-﻿---
+---
 id: playbooks.find_failure_observability_gaps
 type: playbook
 status:
@@ -17,10 +17,11 @@ aliases:
 
 ## Goal
 
-Find failure paths that hide errors, change result semantics, or add defensive complexity without a demonstrated benefit. Recommend the smallest change that preserves the operation's contract and makes failures actionable.
+Find failure paths that hide errors, change result semantics, or add defensive complexity without a demonstrated benefit. Recommend a coherent correction that preserves the operation's contract and makes failures actionable.
 
 ## Preconditions
 
+- For requested refactors, apply [[Refactoring Simplifies the Whole Workflow]] and [[Design a Coherent Refactor]] before editing; include affected callers and consumers.
 - Read [[Failures Are Observable and Actionable]].
 - Identify the execution context: research, batch, streaming, online, or a combination.
 - Establish the requested result, its input identity, consequential side effects, and how callers observe success or failure.
@@ -50,9 +51,9 @@ Find failure paths that hide errors, change result semantics, or add defensive c
 
 6. Group and rank verified findings by contract.
 
-   Group by hidden partial completion, unrequested stale-data reuse, lost failure context, or redundant lifecycle handling. Score criticality, refactor leverage, and minimality from 1 to 5, as in [[Find Boundary Validation Refactors]]. A plausible but incorrect successful result generally deserves higher criticality than redundant code with no demonstrated behavioral defect. Do not score a streaming path higher merely because it is continuously running.
+   Group by hidden partial completion, unrequested stale-data reuse, lost failure context, or redundant lifecycle handling. Score criticality, architectural improvement, and leverage separately using [[Design a Coherent Refactor]]; record implementation cost, migration risk, and verification effort separately. A plausible but incorrect successful result generally deserves higher criticality than redundant code with no demonstrated behavioral defect. Do not score a streaming path higher merely because it is continuously running.
 
-7. Select the smallest corrective change.
+7. Select the correction that resolves the affected failure contract.
 
    Prefer removing an unnecessary catch, fallback, or duplicated status check when normal propagation already fulfills the contract. Preserve required boundary validation and resource cleanup. Add [[Actionable Domain Failure]] only when translation supplies missing context or a caller needs a distinct outcome. Retain justified retries or partial-result handling and make their contracts explicit.
 
@@ -74,7 +75,7 @@ def train_current(source):
     return train(dataset)
 ```
 
-First inspect callers to establish whether they requested a fresh build or explicitly allowed reuse. If they require a fresh build, the minimal correction is:
+First inspect callers to establish whether they requested a fresh build or explicitly allowed reuse. If they require a fresh build and ordinary propagation meets the affected workflow contract, this small correction is sufficient:
 
 ```python
 def train_current(source):

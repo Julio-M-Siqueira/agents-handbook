@@ -46,6 +46,8 @@ class SearchQuery:
 
 The service can accept `SearchQuery` without repeating checks for its required state.
 
+Reuse an existing trusted representation when it already models the concept. Do not add a parallel schema or generic preparation context just to keep old signatures unchanged. Major computations belong in explicit operations; the parameter object carries their inputs. Renew validation when new input or mutation invalidates the established invariant, not at every function call.
+
 ## Use when
 
 - The values are meaningful together and travel together through several operations.

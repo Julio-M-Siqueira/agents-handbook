@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Explanation"
+  short_description: "Explain software with focused visuals and code sketches"
+  default_prompt: "Use $visual-explanation to explain this software behavior or architecture with the smallest useful diagram, comparison, or code sketch."

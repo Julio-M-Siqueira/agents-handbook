@@ -38,6 +38,8 @@ def place_order(command: PlaceOrder, uow: UnitOfWork) -> None:
 
 The unit of work contract should make commit, rollback, and repository lifetime explicit. Preserve the original error when rollback follows a failure.
 
+Resource ownership is distinct from computation: domain operations remain explicit inside the scope. Do not put substantial calculation in `__enter__`, `__exit__`, or a generic preparation method merely to share orchestration. A sequential computation without a transaction or resource lifetime does not need this abstraction. See [[Design a Coherent Refactor]].
+
 ## Use when
 
 - One use case must update multiple records atomically.

@@ -1,17 +1,27 @@
 ---
 name: explain-diff-html
-description: Create a rich, self-contained interactive HTML explanation of a code change, diff, branch, or pull request, including architecture-aware practical exercises. Use when the user wants to understand the background, intuition, implementation, data flow, diagrams, quiz-based reinforcement, hands-on coding practice, or review of a practice solution for a software change.
+description: Teach a code change, diff, branch, or pull request through a self-contained HTML lesson with architecture exercises and an interactive quiz. Use for an in-depth walkthrough, hands-on coding practice, or review of a learner's solution.
 ---
 
 # Explain Diff HTML
 
-Produce a single long-form HTML page that teaches a reader how a specified code change works. Investigate the surrounding system before explaining the diff: the page should make sense to a beginner while still giving an experienced engineer a concise path to the changed behavior.
+Teach how a specified code change works through a full HTML lesson. Investigate the surrounding system before explaining the diff: the result should make sense to a beginner while still giving an experienced engineer a concise path to the changed behavior. This skill owns the narrative, exercises, and quiz; `$visual-explanation` supplies its visuals.
+
+## Choose the scope
+
+- **Explain** (default): produce the full HTML lesson, including the Practice Lab and quiz. Start with a compact reviewer overview so experienced readers can orient themselves quickly.
+- **Practice**: when the user explicitly asks to start an exercise, create `practice/<slug>/` in the active `agents-handbook` workspace. Add `brief.md`, the smallest runnable starter code, and focused tests when the toolchain is available. Do not create a complete solution.
+- **Review**: when the user asks to review a practice solution, inspect the learner's files and run focused checks when practical. Assess the work against the exercise brief and architecture trade-offs. Do not edit or complete the learner's code unless explicitly asked.
+
+Explanation does not require committing, pushing, creating a PR, or editing its description. Only perform those actions when separately requested. For Practice and Review, follow `practice/AGENTS.md`; the HTML lesson workflow below applies when producing a lesson, not to every practice follow-up.
+
+If the user requests only a quick visual rather than a lesson, invoke `$visual-explanation` for that request instead of running the lesson workflow.
 
 ## Workflow
 
 1. Identify the change and its scope. Use the current checkout, diff, branch, PR metadata, or user-supplied files as the source of truth. If the target is ambiguous, infer the most likely change from the available context and state the assumption in the page.
 2. Explore relevant surrounding code, tests, configuration, callers, data models, and documentation. Trace the old and new paths far enough to explain behavior, not merely file-by-file edits. Prefer checked-in examples and tests over speculation.
-3. Build a narrative before writing HTML:
+3. Build the lesson narrative, then invoke `$visual-explanation` as described below to illustrate it:
    - what problem or constraint motivated the change;
    - how the old system behaved;
    - the smallest useful mental model of the new behavior;
@@ -19,16 +29,14 @@ Produce a single long-form HTML page that teaches a reader how a specified code 
    - edge cases, trade-offs, and observable consequences.
 4. Ground the explanation in relevant software-architecture theory. For each material design decision, connect implementation evidence to a principle such as boundaries, coupling and cohesion, dependency direction, state ownership, SOLID, or consistency and availability. Explain why the decision fits the system's constraints, which alternatives were available, and what trade-offs each choice creates. Use the quiz as illustrative, scenario-based exercises that ask readers to reason about those decisions, alternatives, and consequences; do not introduce abstract theory that the inspected code does not support.
 5. Design a **Practice Lab** with two or three progressive coding exercises. Tie every exercise to a material architecture decision in the change. State the goal, starter context, constraints, acceptance checks, one relevant trade-off, and progressive hints. Start with a small implementation or contract test, then progress to a refactor or design choice. Do not expose a complete solution in the HTML page.
-6. Choose the requested mode:
-   - **Explain** (default): produce the HTML lesson and Practice Lab; do not create learner code.
-   - **Practice**: when the user explicitly asks to start an exercise, create `practice/<slug>/` in the active `agents-handbook` workspace. Add `brief.md`, the smallest runnable starter code, and focused tests when the toolchain is available. Do not create a complete solution.
-   - **Review**: when the user asks to review a practice solution, inspect the learner's files and run focused checks when practical. Assess the work against the exercise brief and architecture trade-offs. Do not edit or complete the learner's code unless explicitly asked.
-7. Write the output as one self-contained HTML file with inline CSS and JavaScript. Do not depend on external fonts, CDNs, images, JavaScript packages, or network access. Save it outside the repository, preferably at `/tmp/YYYY-MM-DD-explanation-<slug>.html`, using the current date in `YYYY-MM-DD` format.
-8. Validate the artifact before handing it off: confirm it exists, is a complete HTML document, contains no external asset dependencies, has working quiz interactions, and satisfies the code-block and quiz checks below. If practical, open it in a browser or use a local HTML inspection tool to catch layout or JavaScript errors.
+6. Write the output as one self-contained HTML file with inline CSS and JavaScript. Do not depend on external fonts, CDNs, images, JavaScript packages, or network access. Save it outside the repository in an available artifact or temporary directory, using `YYYY-MM-DD-explanation-<slug>.html` with the current date. Do not create learner code in Explain mode.
+7. Validate the artifact before handing it off: confirm it exists, is a complete HTML document, contains no external asset dependencies, and satisfies the code-block checks below. For lessons, also verify quiz interactions and the quiz rules. Check that structural views preserve the inspected contracts, ownership, and execution order, and visibly identify simplifications. If practical, open HTML in a browser or use a local HTML inspection tool to catch layout or JavaScript errors. Report checks that could not be run.
 
-## Required page structure
+## Full lesson structure
 
-Include a clear title, a short summary, and a table of contents linking to these sections in this order:
+Include a clear title and a compact reviewer overview: one sentence describing the problem and resulting behavior, a structural view of the main change, and up to three evidence-backed notes about migrations, compatibility, or consequential trade-offs when relevant. Link the overview to the detailed explanation rather than repeating it. This overview is explanatory, not a claim that a code review or test run passed.
+
+Follow it with a table of contents linking to these sections in this order:
 
 1. **Background** — Explain only the system needed for the change. Start with an optional beginner-friendly mental model, then narrow to the exact components, contracts, and prior behavior involved.
 2. **Intuition** — Explain the core idea before implementation detail. Use small concrete toy inputs and outputs. Show the old and new behavior when comparison makes the change clearer.
@@ -38,16 +46,15 @@ Include a clear title, a short summary, and a table of contents linking to these
 
 Use smooth transitions, plain language, and precise systems-oriented prose. Explain jargon on first use. Use callouts for definitions, invariants, important edge cases, and practical consequences. Keep the page readable on phones with responsive CSS. Do not use top-level tabs; make it one continuous page.
 
-## Diagrams and examples
+## Visual skill integration
 
-Use a small, reusable set of HTML/CSS diagram patterns rather than ornamental graphics:
+Use `$visual-explanation`: load and follow the [visual-explanation skill](../visual-explanation/SKILL.md) when producing the overview and lesson visuals. Supply:
 
-- flow diagrams for requests, data, or control flow;
-- before/after panels for changed behavior;
-- labeled component cards for system boundaries;
-- compact tables for mappings, invariants, and toy data.
+- the question each visual should answer and the reader's assumed knowledge;
+- inspected source references, old/new behavior, and concrete examples from the lesson;
+- the embedded output contract: HTML/CSS content for this single offline page, with no external assets or separate artifact handoff.
 
-Never use ASCII diagrams. Build diagrams with semantic HTML elements and CSS. Label arrows and include example values whenever the diagram describes data movement. Add accessible text or a caption so the explanation does not depend on visual inspection alone.
+Integrate the resulting views beside the relevant explanation, keeping terminology and examples consistent. Visual selection and rendering rules live in `$visual-explanation`; this skill retains ownership of the page structure, teaching sequence, Practice Lab, quiz, and final artifact validation. Install and sync both skills together.
 
 ## Quiz quality rules
 
@@ -78,4 +85,4 @@ Treat quiz design as part of the explanation, not decoration. Before emitting th
 
 ## Final handoff
 
-Return the exact absolute path to the generated HTML file as a clickable local-file link. Briefly state what was inspected and any assumptions or validation limitations. In Practice mode, also link the created `practice/<slug>/` directory. In Review mode, summarize the observed behavior, checks run, architecture assessment, and next hint; do not modify learner code unless requested.
+For generated HTML, return the exact absolute path as a clickable local-file link and open it with the available artifact preview when supported. Briefly state what was inspected and any assumptions or validation limitations. In Practice mode, also link the created `practice/<slug>/` directory. In Review mode, summarize the observed behavior, checks run, architecture assessment, and next hint; do not modify learner code unless requested.

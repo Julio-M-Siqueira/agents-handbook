@@ -18,7 +18,7 @@ aliases:
 
 ## Statement
 
-A change is not complete until the relevant automated and reviewable evidence shows that its contract still holds.
+A change is not complete until the relevant automated and reviewable evidence shows that its contract still holds and its intended improvement has been achieved.
 
 ## Why
 
@@ -39,6 +39,8 @@ This test proves the failure contract introduced by the configuration boundary, 
 - Test both successful and failure behavior when a unit defines an error contract.
 - Keep tests near the behavior they verify and make them readable as contract examples.
 - Run the repository's standard quality gate before declaring a substantive change complete.
+- For refactors, verify the target responsibilities and data flow as well as behavioral preservation. Passing old tests alone does not show that unnecessary loading, persistence, duplicated state, or hidden computation was removed. Use [[Design a Coherent Refactor]] for architectural acceptance criteria.
+- Confirm migration of affected callers, documentation, and automation. Explain retained complexity and distinguish incomplete implementation from incomplete verification; neither supports an unqualified completion claim.
 - Treat a failed check as a finding to understand, not a result to suppress.
 - For deployment-facing changes, include evidence for configuration loading, dependency failures, monitoring signals, and startup or rollback behavior when those concerns are part of the changed contract.
 

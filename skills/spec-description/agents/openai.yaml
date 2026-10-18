@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Description"
+  short_description: "Clarify requirements and agree on complete outcomes"
+  default_prompt: "Use $spec-description to challenge assumptions, clarify requirements, and draft a complete implementation spec."

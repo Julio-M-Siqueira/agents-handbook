@@ -39,11 +39,27 @@ class PricingService:
 ## Implications
 
 - Keep orchestration focused on sequencing; place domain behavior in collaborators, strategies, validators, and adapters.
+- Thin orchestration means explicit sequencing of cohesive operations, not a short wrapper around hidden work. Keep major computations visible as named stages; context managers own actual resources or lifecycle invariants rather than computational preparation merely for reuse.
+- Choose collaborators from the target workflow responsibilities, not existing file boundaries. Shared code is an improvement only when it resolves the demonstrated coupling or duplication; justify remaining adapters and handoffs using [[Design a Coherent Refactor]].
 - Inject dependencies or resolve them from a narrowly owned registry rather than constructing concrete implementations in business logic.
 - Prefer one clear interface and several small implementations over a hierarchy that accumulates optional hooks.
 - Use registries when selection is data-driven or configured, and validate registry entries at startup.
 - Treat an abstract base class as an interface boundary, not a container for unrelated concrete behavior.
 - Place a structural `Protocol` near the consumer when independently owned or third-party implementations should satisfy the contract without inheritance. Prefer an abstract base class when one owned implementation family needs nominal membership or shared lifecycle rules.
+
+## SOLID as review lenses
+
+Use SOLID to explain a demonstrated design problem, not to require a class hierarchy or an abstraction for every function.
+
+| Lens | Evidence to inspect | Responsibility or contract to clarify |
+| --- | --- | --- |
+| Single responsibility (S) | One unit changes for unrelated policy, persistence, and orchestration reasons | Extract the independently changing responsibility |
+| Open/closed (O) | Adding an established variant repeatedly edits stable orchestration | Inject the variation; use a registry when selection is configured |
+| Liskov substitution (L) | An implementation strengthens preconditions, weakens guarantees, or changes promised side effects/failures | Restore the shared contract or separate incompatible interfaces |
+| Interface segregation (I) | Consumers depend on unused methods or implementations provide meaningless stubs | Define the narrow interface the consumer actually needs |
+| Dependency inversion (D) | Domain policy constructs infrastructure clients or imports their details | Inject a collaborator through a consumer-owned contract |
+
+For substitution, test observable behavior through the same consumer; matching method signatures alone is insufficient. See [[Explicit Operational Contracts]]. Stable conditionals and cohesive concrete implementations are valid when there is no demonstrated variation pressure.
 
 ## Exceptions
 
